@@ -14,7 +14,6 @@ const Page3 = () => {
     const URL = "http://192.168.0.106:3000/menu";
     let result = await fetch(URL);
     result = await result.json();
-    console.warn(result);
     setList(result);
   };
   useEffect(() => {

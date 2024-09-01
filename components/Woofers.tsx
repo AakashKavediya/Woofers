@@ -139,11 +139,6 @@ const Woofers = (props) => {
   );
 };
 
-const searchThings = () =>{
-  return(
-    <View></View>
-  )
-}
 
 //CREATING SEARCH BAR
 const SearchBar = () => {
@@ -210,11 +205,15 @@ const Menu = () => {
   const showDish = () => {
     setMoreDish(!moreDish)
   }
+  //Alert Function
+  const Alertt = () =>{
+    alert("Don't eat form out side. Make food at home")
+  }
   return (
     <View>
       <Text style={styles.menuHeading}>Eat what makes your happy!</Text>
       <View style={styles.allSmallDishes}>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()}  style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
@@ -223,7 +222,7 @@ const Menu = () => {
           />
           <Text style={styles.menuDishText}>Pav Bhaji</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()} style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
@@ -232,7 +231,7 @@ const Menu = () => {
           />
           <Text style={styles.menuDishText}>Veg Thali</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()} style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
@@ -241,7 +240,7 @@ const Menu = () => {
           />
           <Text style={styles.menuDishText}>Pizze</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()} style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
@@ -250,7 +249,7 @@ const Menu = () => {
           />
           <Text style={styles.menuDishText}>Biryani</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()} style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
@@ -259,7 +258,7 @@ const Menu = () => {
           />
           <Text style={styles.menuDishText}>Meal</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()} style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
@@ -268,7 +267,7 @@ const Menu = () => {
           />
           <Text style={styles.menuDishText}>Haleem</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()} style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
@@ -277,7 +276,7 @@ const Menu = () => {
           />
           <Text style={styles.menuDishText}>Veg Salad</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()} style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
@@ -297,11 +296,15 @@ const Menu = () => {
   );
 };
 
-const SomeMoreDish = (props) => {
+const SomeMoreDish = (props) => {  
+  //Alert Function
+  const Alertt = () =>{
+    alert("Don't eat form out side. Make food at home")
+  }
   return (
     <View>
       <View style={styles.moreSmallDishes}>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()} style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
@@ -310,7 +313,7 @@ const SomeMoreDish = (props) => {
           />
           <Text style={styles.menuDishText}>Juice</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()} style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
@@ -319,7 +322,7 @@ const SomeMoreDish = (props) => {
           />
           <Text style={styles.menuDishText}>Dosa</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()} style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
@@ -328,7 +331,7 @@ const SomeMoreDish = (props) => {
           />
           <Text style={styles.menuDishText}>Gulab Jamun</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuDishButton}>
+        <TouchableOpacity onPress={()=>Alertt()} style={styles.menuDishButton}>
           <Image
             style={styles.menuDishImage}
             source={{
