@@ -7,8 +7,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 //Importing Components
 import Login from "@/components/Login";
-import Home from "@/components/Woofers";
+import Woofers from "@/components/Woofers";
+import MultiScreen from "../components/MultiScreen";
 import Account from "@/components/Account";
+import Map from "@/components/Map";
 
 export default function Index() {
   const Stack = createNativeStackNavigator();
@@ -31,19 +33,25 @@ export default function Index() {
             headerTitleStyle: {
               fontWeight: "bold",
               fontSize: 40
-            },
-            headerLeft: () => (
-              <TouchableOpacity>
-                <Text></Text>
-              </TouchableOpacity>
-            )
+            }
+            // headerLeft: () => (
+            //   <TouchableOpacity>
+            //     <Text></Text>
+            //   </TouchableOpacity>
+            // )
           }}
-          component={Home}
+          component={Woofers}
         />
         <Stack.Screen
           name="Account"
           options={{ headerShown: false }}
           component={Account}
+        />
+
+        <Stack.Screen
+          name="MultiScreen"
+          options={{ headerShown: false }}
+          component={MultiScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

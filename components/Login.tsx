@@ -13,6 +13,7 @@ import LinearGradient from "react-native-linear-gradient";
 //Importing Component
 import Woofers from "./Woofers";
 import Account from "./Account";
+import MultiScreen from "./MultiScreen";
 
 const Login = (props) => {
   return (
@@ -40,7 +41,7 @@ const Login = (props) => {
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              onPress={() => props.navigation.navigate(Woofers)}
+              onPress={() => props.navigation.navigate(MultiScreen)}
             >
               <Text style={styles.buttonText}>Log in</Text>
             </TouchableOpacity>

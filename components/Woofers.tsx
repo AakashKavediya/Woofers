@@ -5,14 +5,22 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  ScrollView
+  ScrollView,
+  Modal
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
 //Importing Icons
 import AntDesign from "@expo/vector-icons/AntDesign";
+import Entypo from "@expo/vector-icons/Entypo";
+import Feather from '@expo/vector-icons/Feather';
+import EvilIcons from '@expo/vector-icons/EvilIcons';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
-const Woofers = () => {
+//Importing Component
+import Map from "./Map";
+
+const Woofers = (props) => {
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -26,21 +34,134 @@ const Woofers = () => {
           <Menu />
         </View>
         <View style={styles.menuContainer}>
-          <SmallDish />
+          <Text style={styles.menuHeading}>360 restaurants around you</Text>
+
+          <SmallDish
+            url={
+              "https://i.pinimg.com/564x/5d/4d/1f/5d4d1ff305a69bf3998b12a895baa479.jpg"
+            }
+            name={"Pav Bhaji"}
+            Hotel={"Amar Hotel"}
+            stars={"4.1"}
+            discription={
+              "A spicy mashed vegetable curry served with buttered bread rolls, garnished with onions and lemon."
+            }
+            price={"199"}
+          />
+          <SmallDish
+            url={
+              "https://i.pinimg.com/564x/e9/14/a0/e914a0278e763833eaddb76fca98428e.jpg"
+            }
+            name={"Veg Thali"}
+            Hotel={"Classic Veg"}
+            stars={"3.5"}
+            discription={
+              "A platter of assorted vegetarian dishes, including rice, bread, curries, dal, and dessert."
+            }
+            price={"899"}
+          />
+          <SmallDish
+            url={
+              "https://i.pinimg.com/564x/b4/63/db/b463db279943759c58f685bd054ace89.jpg"
+            }
+            name={"Pizza"}
+            Hotel={"Pizza Hut"}
+            stars={"3.1"}
+            discription={
+              "A baked flatbread topped with tomato sauce, cheese, and various toppings like vegetables, meat, and herbs"
+            }
+            price={"499"}
+          />
+          <SmallDish
+            url={
+              "https://i.pinimg.com/564x/10/9f/04/109f046d8e41106b9f18797d7d8600ce.jpg"
+            }
+            name={"Biryani"}
+            Hotel={"Biryani Center "}
+            stars={"3.2"}
+            discription={
+              "A fragrant rice dish cooked with aromatic spices, saffron, marinated meat or vegetables, and garnished with fried onions."
+            }
+            price={"399"}
+          />
+          <SmallDish
+            url={
+              "https://i.pinimg.com/564x/00/ed/39/00ed390bb97eef0ec52bda0665badd65.jpg"
+            }
+            name={"Burger Meal"}
+            Hotel={"Burger King"}
+            stars={"4.5"}
+            discription={
+              "A sandwich with a meat or veggie patty, lettuce, tomato, cheese, and condiments, served in a soft bun."
+            }
+            price={"299"}
+          />
+          <SmallDish
+            url={
+              "https://i.pinimg.com/564x/21/22/bd/2122bd37ef7179c95352ad2b941b592d.jpg"
+            }
+            name={"Haleem"}
+            Hotel={"Abdul Dhabha"}
+            stars={"2.5"}
+            discription={
+              "A slow-cooked, rich stew made from lentils, meat, and spices, with a creamy, hearty texture."
+            }
+            price={"399"}
+          />
+          <SmallDish
+            url={
+              "https://i.pinimg.com/564x/f1/15/da/f115dafedd08aa0e950cbe7eec37239d.jpg"
+            }
+            name={"Veg Salad"}
+            Hotel={"Healthy Dhabha"}
+            stars={"4.3"}
+            discription={
+              "A fresh mix of leafy greens, vegetables, and toppings like nuts and cheese, tossed in a tangy dressing."
+            }
+            price={"199"}
+          />
+          <SmallDish
+            url={
+              "https://i.pinimg.com/564x/9d/25/93/9d2593780fe22eba7acf1ea6e9e57110.jpg"
+            }
+            name={"Cake"}
+            Hotel={"Cake Point"}
+            stars={"4.5"}
+            discription={
+              "A sweet, baked dessert, typically made with flour, sugar, eggs, and flavorings, often layered and frosted."
+            }
+            price={"99"}
+          />
         </View>
       </ScrollView>
+      
     </View>
   );
 };
 
+const searchThings = () =>{
+  return(
+    <View></View>
+  )
+}
+
 //CREATING SEARCH BAR
 const SearchBar = () => {
+  const [data,setData] = useState([])
+  const SearchFood = async (text) =>{
+    const URL = `http://192.168.0.106:3000/menu?q=${text}`;
+    let result = await fetch(URL);
+    console.warn(URL);
+    result = await result.json();
+    
+  }
   return (
     <View style={styles.searchBar}>
       <TextInput
         placeholder="Restaurant name or a dish?"
         placeholderTextColor={"darkgray"}
         style={styles.searchText}
+        onChangeText={(text)=>SearchFood(text)}
       />
       <TouchableOpacity>
         <AntDesign style={styles.search} name="search1" />
@@ -176,7 +297,7 @@ const Menu = () => {
   );
 };
 
-const SomeMoreDish = () => {
+const SomeMoreDish = (props) => {
   return (
     <View>
       <View style={styles.moreSmallDishes}>
@@ -222,60 +343,269 @@ const SomeMoreDish = () => {
 }
  
 //SMALL DISH COMPONENTS
-const SmallDish = () => {
+const SmallDish = (props) => {
+  //Const for showing dishes
   const [dish,setDish] = useState([])
-  const getDishList = async () => {
-    const URL = "http://192.168.0.104:3000/smallDish";
-    let result = await fetch (URL);
-    result = await result.json();
-    if(result){
-      console.warn(result);
-      setDish(result);
-    }
+  //Const for showing Modal
+  const [showModal,setShowModal] = useState(false)  
+  //Const for creating Tic option
+   const [tic,setTic] = useState(false)
+
+
+  //Const for setting count option
+  const [count,setCount] = useState(1)
+
+  //function for updating count
+  const UpAddCount = () =>{
+    setCount(count+1)
   }
-  useEffect(()=>{
-    getDishList();
-  },[])
+  const UpSubtractCount = () =>{
+    setCount(count-1)
+  }
+
+  //Function for creating tic button
+  const TickNow = () => {
+    setTic(!tic)
+  }
   return (
     <View>
-      <Text style={styles.menuHeading}>360 restaurants around you</Text>
-      <View >
-        {
-          dish.length ? (
-            dish.map((items) => (
-              <View style={styles.FlashCard} >
-              <TouchableOpacity>
-              <View style={styles.Dishbanner}>
-                <Image
-                  style={styles.DishBannerImage}
-                  source={{ uri: items.url }}
-                />
-              </View>
-              <View style={styles.nameContent} >
-                <View style={styles.DishName}>
-                  <Text style={styles.DishNameText}>{items.name}</Text>
-                  <Text style={styles.HotelName}>{items.Hotel}</Text>
-                </View>
-                <View style={styles.rating}>
-                  <Text style={styles.ratingText}>{items.stars}</Text>
-                  <AntDesign name="star" size={16} color="white" />
-                </View>
-              </View>
-              <View>
-                <Text style={styles.flashCardDiscription}>
-                  {items.discription}
-                </Text>
-              </View>
-        </TouchableOpacity>
+      <View>
+        <View style={styles.FlashCard}>
+          <TouchableOpacity onPress={() => setShowModal(true)}>
+            <View style={styles.Dishbanner}>
+              <Image
+                style={styles.DishBannerImage}
+                source={{ uri: props.url }}
+              />
             </View>
-          ))
-        ) : (
-          <Text>Loading...</Text>
-        )}
+            <View style={styles.nameContent}>
+              <View style={styles.DishName}>
+                <Text style={styles.DishNameText}>{props.name}</Text>
+                <Text style={styles.HotelName}>{props.Hotel}</Text>
+              </View>
+              <View style={styles.rating}>
+                <Text style={styles.ratingText}>{props.stars}</Text>
+                <AntDesign name="star" size={16} color="white" />
+              </View>
+            </View>
+            <View>
+              <Text style={styles.flashCardDiscription}>
+                {props.discription}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          {/* MODAL */}
+          {showModal ? (
+            <Modal animationType="slide" transparent={true} visible={showModal}>
+              <View style={styles.modalMainBox}>
+                <View style={styles.modalSubBox}>
+                  <TouchableOpacity
+                    style={styles.closeModal}
+                    onPress={() => setShowModal(false)}
+                  >
+                    <AntDesign
+                      style={styles.closeIcon}
+                      name="plus"
+                      size={30}
+                      color="white"
+                    />
+                  </TouchableOpacity>
+                  <View>
+                    <Image
+                      style={styles.modalBanner}
+                      source={{ uri: props.url }}
+                    />
+                  </View>
+                  <View style={styles.foodInfo}>
+                    <View style={styles.nameContent}>
+                      <View style={styles.DishName}>
+                        <Text style={styles.DishNameText}>{props.name}</Text>
+                        <Text style={styles.HotelName}>{props.Hotel}</Text>
+                      </View>
+                      <View style={styles.rating}>
+                        <Text style={styles.ratingText}>{props.stars}</Text>
+                        <AntDesign name="star" size={16} color="white" />
+                      </View>
+                    </View>
+                    <View>
+                      <Text style={styles.flashCardDiscription}>
+                        {props.discription}
+                      </Text>
+                    </View>
+                    <View style={styles.AddOnContainer}>
+                      <View>
+                        <Text style={styles.AddOn}>Add on</Text>
+                        <Text style={styles.CanAddOn}>
+                          You can add upto 4 options
+                        </Text>
+                      </View>
+                      <View style={styles.checkBox}>
+                        <View style={styles.Ticboxs}>
+                          <View style={styles.combine}>
+                            <View style={styles.veg}>
+                              <Entypo
+                                style={styles.vegTicl}
+                                name="circle"
+                                size={14}
+                                color="green"
+                              />
+                            </View>
+                            <Text style={styles.optionText}>
+                              10% off on vegetable
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            onPress={() => TickNow()}
+                            style={styles.tickOption}
+                          >
+                            {tic ? <View style={styles.fillBox}></View> : null}
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.Ticboxs}>
+                          <View style={styles.combine}>
+                            <View style={styles.veg}>
+                              <Entypo
+                                style={styles.vegTicl}
+                                name="circle"
+                                size={14}
+                                color="green"
+                              />
+                            </View>
+                            <Text style={styles.optionText}>
+                              10% off on vegetable
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            onPress={() => TickNow()}
+                            style={styles.tickOption}
+                          >
+                            {tic ? <View style={styles.fillBox}></View> : null}
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.Ticboxs}>
+                          <View style={styles.combine}>
+                            <View style={styles.veg}>
+                              <Entypo
+                                style={styles.vegTicl}
+                                name="circle"
+                                size={14}
+                                color="green"
+                              />
+                            </View>
+                            <Text style={styles.optionText}>
+                              10% off on vegetable
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            onPress={() => TickNow()}
+                            style={styles.tickOption}
+                          >
+                            {tic ? <View style={styles.fillBox}></View> : null}
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.Ticboxs}>
+                          <View style={styles.combine}>
+                            <View style={styles.veg}>
+                              <Entypo
+                                style={styles.vegTicl}
+                                name="circle"
+                                size={14}
+                                color="green"
+                              />
+                            </View>
+                            <Text style={styles.optionText}>
+                              10% off on vegetable
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            onPress={() => TickNow()}
+                            style={styles.tickOption}
+                          >
+                            {tic ? <View style={styles.fillBox}></View> : null}
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.Ticboxs}>
+                          <View style={styles.combine}>
+                            <View style={styles.veg}>
+                              <Entypo
+                                style={styles.vegTicl}
+                                name="circle"
+                                size={14}
+                                color="green"
+                              />
+                            </View>
+                            <Text style={styles.optionText}>
+                              10% off on vegetable
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            onPress={() => TickNow()}
+                            style={styles.tickOption}
+                          >
+                            {tic ? <View style={styles.fillBox}></View> : null}
+                          </TouchableOpacity>
+                        </View>
+                        <View style={styles.Ticboxs}>
+                          <View style={styles.combine}>
+                            <View style={styles.veg}>
+                              <Entypo
+                                style={styles.vegTicl}
+                                name="circle"
+                                size={14}
+                                color="green"
+                              />
+                            </View>
+                            <Text style={styles.optionText}>
+                              10% off on vegetable
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            onPress={() => TickNow()}
+                            style={styles.tickOption}
+                          >
+                            {tic ? <View style={styles.fillBox}></View> : null}
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </View>
+                    <View style={styles.priceConatiner}>
+                      <View style={styles.counterContainer}>
+                        <TouchableOpacity onPress={() => UpSubtractCount()}>
+                          <AntDesign name="minus" size={16} color="white" />
+                        </TouchableOpacity>
+                        <Text style={styles.count}>{count}</Text>
+                        <TouchableOpacity onPress={() => UpAddCount()}>
+                          <AntDesign name="plus" size={16} color="white" />
+                        </TouchableOpacity>
+                      </View>
+                      <TouchableOpacity>
+                        <Text style={styles.price}>Add ${props.price}</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+          ) : // <CreateModal
+          //   url={props.url}
+          //   name={props.name}
+          //   Hotel={props.Hotel}
+          //   stars={props.stars}
+          //   discription={props.discription}
+          //   price={props.price}
+          //   CreateModal = {props.setShowModal}
+          // />
+          null}
+        </View>
       </View>
     </View>
   );
 };
+
+ 
+
+
 export default Woofers;
 
 const styles = StyleSheet.create({
@@ -438,5 +768,132 @@ const styles = StyleSheet.create({
   ratingText: {
     fontSize: 18,
     color: "white"
-  }
+  },
+  modalBanner:{
+    backgroundColor:'white',
+    height:200,
+    width:'100%',
+    borderTopLeftRadius:20,
+    borderTopRightRadius:20,
+  },
+  AddOnContainer:{
+    borderTopWidth:1,
+    borderTopColor:'lightgray',
+    paddingTop:10,
+    marginTop:20,
+  },
+  AddOn:{
+    fontSize:25,
+  },
+  CanAddOn:{
+    color:'gray',
+    fontSize:20,
+  },
+  checkBox:{
+    marginTop:15,
+    },
+  Ticboxs:{
+    display:'flex',
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'space-between',
+    marginVertical:8,
+  },
+  combine:{
+    display:'flex',
+    flexDirection:'row',
+    alignItems:'center',
+  },
+  optionText:{
+    fontSize:18,
+    color:'gray',
+    marginLeft:10,
+  },
+  veg:{
+    padding:2,
+    borderWidth:2,
+    borderColor:'green'
+  },
+  vegTicl:{
+    backgroundColor:'green',
+    borderRadius:20,
+  },
+  tickOption:{
+    height:20,
+    width:20,
+    borderWidth:2,
+    borderColor:'gray',
+    padding:1,
+    display:'flex',
+    alignItems:'center',
+    justifyContent:"center",
+  },
+  fillBox:{
+    height:14,
+    width:14,
+    backgroundColor:'gray',
+  },
+  priceConatiner:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    marginTop:20,
+
+  },
+  count:{
+    fontSize:22,
+    color:'white',
+    fontWeight:'bold',
+  },
+  counterContainer:{
+    width:90,
+    backgroundColor:"#fd5c63",
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    padding:10,
+    borderRadius:8,
+    alignItems:'center',
+  },
+  price:{
+    width:250,
+    fontSize:25,
+    fontWeight:'bold',
+    backgroundColor:'red',
+    borderRadius:10,
+    color:'white',
+    padding:10,
+    textAlign:'center',
+  },
+  foodInfo:{
+    padding:10,
+    paddingHorizontal:15,
+  },
+  modalSubBox:{
+    backgroundColor:'white',
+    // position:'absolute',
+    bottom:0,
+  },
+  modalMainBox:{
+    position:'absolute',
+    bottom:0,
+    backgroundColor:'rgba(0, 0, 0, 0.59)',
+    width:'100%',
+  },
+  closeModal:{
+        display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    
+  },
+  closeIcon:{
+    padding:10,
+    color:'white',
+    backgroundColor:'black',
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    textAlign:'center',
+    borderRadius:30,
+  },
 });
